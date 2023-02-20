@@ -1,6 +1,6 @@
 package com.example.onlineshoppingbs23.ui.authentication;
 
-import com.example.onlineshoppingbs23.ui.model.User;
+import com.example.onlineshoppingbs23.data.local.entity.UserEntity;
 
 public interface AuthenticationContract {
 
@@ -10,7 +10,7 @@ public interface AuthenticationContract {
     }
     interface  LoginView extends  BaseView{
         void showError(String error);
-        void response(boolean valid, String uid, User user);
+        void response(boolean valid, String uid,String message);
     }
 
     interface  RegistrationView extends  BaseView{
@@ -22,19 +22,18 @@ public interface AuthenticationContract {
     interface  Model{
         interface ModelResponse{
             void  getLoginStatus(String phone, String password);
-            void  createUserAccount(User user);
+            void  createUserAccount(UserEntity user);
 
         }
 
         void  registrationResponseFromSource(boolean isCreated,String message);
-        void loginResponse(String error,User user);
-        void loginResponseStatus(boolean valid,String uid,User user);
+        void loginResponseStatusFromSource(boolean valid, String uid, String message);
 
 
     }
     interface Presenter{
         void getLoginStatusFromUI(String phone, String password);
-        void createAccountFromUI(User user);
+        void createAccountFromUI(UserEntity user);
         void destroyView();
     }
 }

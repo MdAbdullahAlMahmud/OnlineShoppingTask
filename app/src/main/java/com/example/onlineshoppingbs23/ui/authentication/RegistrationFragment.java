@@ -16,8 +16,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.onlineshoppingbs23.R;
+import com.example.onlineshoppingbs23.data.local.entity.UserEntity;
+import com.example.onlineshoppingbs23.enums.UserRole;
 import com.example.onlineshoppingbs23.ui.model.User;
 import com.example.onlineshoppingbs23.utils.CommonFunction;
+
+import es.dmoral.toasty.Toasty;
 
 
 public class RegistrationFragment extends Fragment implements AuthenticationContract.RegistrationView {
@@ -48,7 +52,7 @@ public class RegistrationFragment extends Fragment implements AuthenticationCont
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        authenticationPresenter = new AuthenticationPresenter(this);
+        authenticationPresenter = new AuthenticationPresenter(this,getContext());
 
 
 
@@ -68,11 +72,57 @@ public class RegistrationFragment extends Fragment implements AuthenticationCont
             public void onClick(View view) {
 
 
-                //validateField();
-                authenticationPresenter.createAccountFromUI(new User());
+                validateField();
 
             }
         });
+    }
+    private  void  validateField(){
+
+        String name = nameEdt.getText().toString().trim();
+        String phone = phoneEdt.getText().toString();
+        String password = passwordEdt.getText().toString();
+        String confirmPassword = confirmPasswordEdt.getText().toString();
+
+
+
+        if (name.isEmpty()){
+            nameEdt.setError("required");
+            return;
+        }
+
+        if (phone.isEmpty()){
+            phoneEdt.setError("required");
+            return;
+        }
+
+        if (password.isEmpty()){
+            passwordEdt.setError("required");
+            return;
+        }
+        if (confirmPassword.isEmpty()){
+            confirmPasswordEdt.setError("required");
+            return;
+        }
+        if (!password.equals(confirmPassword)){
+            Toasty.error(getContext(),"Password Mismatch").show();
+            return;
+        }
+    // User(String name, String mobile, String password, String uid, String image, UserRole userRole) {
+        User user = new User(name,phone,password,"","", UserRole.Customer);
+
+        UserEntity userEntity = new UserEntity();
+        userEntity.name = name;
+        userEntity.phone = phone;
+        userEntity.password = password;
+        authenticationPresenter.createAccountFromUI(userEntity);
+
+
+
+
+
+
+
     }
 
     private void initView(View view) {

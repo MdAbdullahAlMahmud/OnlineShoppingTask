@@ -1,8 +1,11 @@
 package com.example.onlineshoppingbs23.ui.authentication;
 
+import android.content.Context;
+
+import com.example.onlineshoppingbs23.data.local.entity.UserEntity;
 import com.example.onlineshoppingbs23.ui.model.User;
 
-public class AuthenticationPresenter implements  AuthenticationContract.Presenter ,AuthenticationContract.Model{
+  public class AuthenticationPresenter implements  AuthenticationContract.Presenter ,AuthenticationContract.Model{
 
 
     AuthenticationContract.LoginView loginView;
@@ -12,18 +15,28 @@ public class AuthenticationPresenter implements  AuthenticationContract.Presente
     AuthenticationModel model;
 
 
-    public AuthenticationPresenter(AuthenticationContract.BaseView baseView) {
+    public AuthenticationPresenter(AuthenticationContract.BaseView baseView ,Context context) {
         this.registrationView = (AuthenticationContract.RegistrationView) baseView;
-        this.model = new AuthenticationModel(this);
+        this.model = new AuthenticationModel(this, context);
+    }
+
+
+    public  AuthenticationPresenter(AuthenticationContract.LoginView loginView, Context context){
+        this.loginView = loginView;
+        this.model = new AuthenticationModel(this, context);
     }
 
     @Override
     public void getLoginStatusFromUI(String phone, String password) {
+        if (loginView!=null){
+            loginView.showLoading();
+            model.getLoginStatus(phone,password);
+        }
 
     }
 
     @Override
-    public void createAccountFromUI(User user) {
+    public void createAccountFromUI(UserEntity user) {
         if (registrationView!=null){
             registrationView.showLoading();
             model.createUserAccount(user);
@@ -55,13 +68,14 @@ public class AuthenticationPresenter implements  AuthenticationContract.Presente
 
     }
 
-    @Override
-    public void loginResponse(String error, User user) {
 
-    }
 
     @Override
-    public void loginResponseStatus(boolean valid, String uid, User user) {
+    public void loginResponseStatusFromSource(boolean valid, String uid, String message) {
 
+        if (loginView!=null){
+            loginView.response(valid,uid,message);
+            loginView.hideLoading();
+        }
     }
 }

@@ -71,7 +71,9 @@
             android:layout_height="wrap_content"
             android:indeterminate="true"
             android:visibility="gone"
+            android:indeterminateTint="@color/primaryColor"
             android:layout_gravity="center"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/logInButton"
             android:layout_width="250dp"

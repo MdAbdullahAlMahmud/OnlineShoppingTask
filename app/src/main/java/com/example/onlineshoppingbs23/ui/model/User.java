@@ -1,6 +1,8 @@
 package com.example.onlineshoppingbs23.ui.model;
 
-enum UserRole{User,Admin, Manager, Cashier}
+import com.example.onlineshoppingbs23.enums.UserRole;
+
+
 public class  User {
 
     private  String name ;
