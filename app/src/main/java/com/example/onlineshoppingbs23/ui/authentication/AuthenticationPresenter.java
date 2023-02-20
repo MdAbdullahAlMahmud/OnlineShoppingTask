@@ -3,9 +3,8 @@ package com.example.onlineshoppingbs23.ui.authentication;
 import android.content.Context;
 
 import com.example.onlineshoppingbs23.data.local.entity.UserEntity;
-import com.example.onlineshoppingbs23.ui.model.User;
 
-  public class AuthenticationPresenter implements  AuthenticationContract.Presenter ,AuthenticationContract.Model{
+public class AuthenticationPresenter implements  AuthenticationContract.Presenter ,AuthenticationContract.Model{
 
 
     AuthenticationContract.LoginView loginView;

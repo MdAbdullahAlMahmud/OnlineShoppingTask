@@ -2,11 +2,9 @@ package com.example.onlineshoppingbs23.data.local.dao;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.example.onlineshoppingbs23.data.local.entity.UserEntity;
-import com.example.onlineshoppingbs23.ui.model.User;
 
 import java.util.List;
 

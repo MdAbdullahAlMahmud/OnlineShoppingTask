@@ -1,4 +1,4 @@
-package com.example.onlineshoppingbs23.ui.model;
+package com.example.onlineshoppingbs23.model;
 
 import com.example.onlineshoppingbs23.enums.UserRole;
 

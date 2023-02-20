@@ -19,6 +19,9 @@ public class UserEntity {
      @ColumnInfo(name = "password")
     public String password;
 
+     @ColumnInfo(name =  "role")
+    public  int role;
+
 
 
 }

@@ -1,6 +1,5 @@
 package com.example.onlineshoppingbs23.ui.authentication;
 
-import android.hardware.usb.UsbRequest;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,7 +17,7 @@ import android.widget.TextView;
 import com.example.onlineshoppingbs23.R;
 import com.example.onlineshoppingbs23.data.local.entity.UserEntity;
 import com.example.onlineshoppingbs23.enums.UserRole;
-import com.example.onlineshoppingbs23.ui.model.User;
+import com.example.onlineshoppingbs23.model.User;
 import com.example.onlineshoppingbs23.utils.CommonFunction;
 
 import es.dmoral.toasty.Toasty;
@@ -115,6 +114,7 @@ public class RegistrationFragment extends Fragment implements AuthenticationCont
         userEntity.name = name;
         userEntity.phone = phone;
         userEntity.password = password;
+        userEntity.role = UserRole.Customer.ordinal();
         authenticationPresenter.createAccountFromUI(userEntity);
 
 
