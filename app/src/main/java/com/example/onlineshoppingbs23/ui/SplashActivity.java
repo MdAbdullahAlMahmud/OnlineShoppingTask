@@ -8,7 +8,6 @@ import android.os.Handler;
 
 import com.example.onlineshoppingbs23.R;
 import com.example.onlineshoppingbs23.ui.authentication.AuthenticationActivity;
-import com.example.onlineshoppingbs23.ui.authentication.RegistrationActivity;
 import com.mkrlabs.customstatusbar.CustomStatusBar;
 
 public class SplashActivity extends AppCompatActivity {

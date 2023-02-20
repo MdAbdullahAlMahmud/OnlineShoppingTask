@@ -15,9 +15,6 @@
             android:name=".ui.authentication.AuthenticationActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.authentication.RegistrationActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.SplashActivity"
             android:exported="true">
             <intent-filter>
