@@ -1,4 +1,4 @@
-package com.example.onlineshoppingbs23.ui;
+package com.example.onlineshoppingbs23.ui.authentication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
