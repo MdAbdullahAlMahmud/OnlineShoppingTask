@@ -14,6 +14,8 @@ public class OrderItem {
         this.qty = qty;
     }
 
+    public OrderItem() {
+    }
 
     public int getpId() {
         return pId;

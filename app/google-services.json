@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1029961574511",
+    "project_id": "bs23onlineshopping",
+    "storage_bucket": "bs23onlineshopping.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029961574511:android:226ef19f4b5f5111fcc59a",
+        "android_client_info": {
+          "package_name": "com.example.onlineshoppingbs23"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029961574511-efiitn5jg1fu5nniig2b0p405l69mce4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL5aS2kTctefk6rdHIqg6FPWwUOh-r_to"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029961574511-efiitn5jg1fu5nniig2b0p405l69mce4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

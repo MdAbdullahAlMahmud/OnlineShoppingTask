@@ -15,18 +15,31 @@ public class Order {
 
     private OrderStatus orderStatus;
 
+    private String orderId;
 
     private List<OrderItem> orderDetails;
 
-    public Order(int id, double total_price, int uid, Date timestamp, OrderStatus orderStatus , List<OrderItem> orderDetails) {
+    public Order() {
+    }
+
+    public Order(int id, double total_price, int uid, Date timestamp, OrderStatus orderStatus , List<OrderItem> orderDetails, String orderId) {
         this.id = id;
         this.total_price = total_price;
         this.uid = uid;
         this.timestamp = timestamp;
         this.orderStatus = orderStatus;
         this.orderDetails = orderDetails;
+        this.orderId= orderId;
     }
 
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
     public int getId() {
         return id;

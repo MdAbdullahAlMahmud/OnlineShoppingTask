@@ -1,5 +1,6 @@
 package com.example.onlineshoppingbs23.ui.cart_activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,7 +22,10 @@ import com.example.onlineshoppingbs23.utils.CommonFunction;
 import com.example.onlineshoppingbs23.utils.KeyName;
 import com.example.onlineshoppingbs23.utils.MyShreadPref;
 import com.example.onlineshoppingbs23.utils.Resources;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 import java.util.List;
@@ -37,11 +41,14 @@ public class CartActivity extends AppCompatActivity {
 
     private  double totalAmount = 0;
     private MyShreadPref myShreadPref;
+
+    private FirebaseFirestore firebaseFirestore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         myShreadPref = new MyShreadPref(this);
+        firebaseFirestore = FirebaseFirestore.getInstance();
         init();
         initRecycleView();
 
@@ -57,7 +64,6 @@ public class CartActivity extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                CommonFunction.successToast(CartActivity.this,"Order placed successfully");
 
 
                                 Random rand = new Random();
@@ -71,14 +77,32 @@ public class CartActivity extends AppCompatActivity {
                                      totalPrice +=amount;
                                 }
 
-                                Order order = new  Order(num,totalPrice,Integer.parseInt(myShreadPref.getUID()),new Date(), OrderStatus.Pending,Resources.getAllCartListProducts());
 
-                                Resources.addToOrderList(order);
-                                Resources.getAllCartListProducts().clear();
-                                Intent intent = new Intent(CartActivity.this, HomeActivity.class);
+                                /*Resources.addToOrderList(order);
+                                Resources.getAllCartListProducts().clear();*/
 
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
+                                String orderId = firebaseFirestore.collection(KeyName.ORDERS_NODE).document().getId();
+                                Order order = new  Order(num,totalPrice,Integer.parseInt(myShreadPref.getUID()),new Date(), OrderStatus.Pending,Resources.getAllCartListProducts(),orderId);
+
+
+                                firebaseFirestore.collection(KeyName.ORDERS_NODE).document(orderId).set(order).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()){
+
+                                            CommonFunction.successToast(CartActivity.this,"Order placed successfully");
+
+                                            Intent intent = new Intent(CartActivity.this, HomeActivity.class);
+
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
+                                        }
+                                    }
+                                });
+
+
+
+
 
 
                             }
