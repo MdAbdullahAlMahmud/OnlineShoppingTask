@@ -2,18 +2,15 @@ package com.example.onlineshoppingbs23.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.onlineshoppingbs23.R;
 import com.example.onlineshoppingbs23.adapter.ProductAdapter;
-import com.example.onlineshoppingbs23.model.Order;
 import com.example.onlineshoppingbs23.model.OrderItem;
 import com.example.onlineshoppingbs23.model.Product;
 import com.example.onlineshoppingbs23.ui.cart_activity.CartActivity;
@@ -59,7 +56,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onCartItemClickListener(Product product) {
 
                 OrderItem orderItem = new OrderItem(product.getpId(),product.getName(),product.getPrice(),1);
-                Resources.addOrder(orderItem);
+                Resources.addToCart(orderItem);
                 CommonFunction.successToast(HomeActivity.this, "Successfully added to cart list " + product.getName());
 
 

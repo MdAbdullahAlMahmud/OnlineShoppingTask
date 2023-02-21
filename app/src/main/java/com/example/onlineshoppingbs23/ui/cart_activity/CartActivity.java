@@ -13,14 +13,19 @@ import android.widget.TextView;
 
 import com.example.onlineshoppingbs23.R;
 import com.example.onlineshoppingbs23.adapter.CartAdapter;
+import com.example.onlineshoppingbs23.enums.OrderStatus;
+import com.example.onlineshoppingbs23.model.Order;
 import com.example.onlineshoppingbs23.model.OrderItem;
 import com.example.onlineshoppingbs23.ui.HomeActivity;
 import com.example.onlineshoppingbs23.utils.CommonFunction;
 import com.example.onlineshoppingbs23.utils.KeyName;
+import com.example.onlineshoppingbs23.utils.MyShreadPref;
 import com.example.onlineshoppingbs23.utils.Resources;
 import com.google.android.material.button.MaterialButton;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -31,10 +36,12 @@ public class CartActivity extends AppCompatActivity {
     private TextView cartListTotalAmountTv;
 
     private  double totalAmount = 0;
+    private MyShreadPref myShreadPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+        myShreadPref = new MyShreadPref(this);
         init();
         initRecycleView();
 
@@ -52,6 +59,21 @@ public class CartActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 CommonFunction.successToast(CartActivity.this,"Order placed successfully");
 
+
+                                Random rand = new Random();
+                                int num = rand.nextInt(1000) + 1000000;
+
+                                int totalPrice = 0 ;
+                                for ( int index = 0 ; index < Resources.getAllCartListProducts().size();index++){
+
+                                    OrderItem orderItem = Resources.getAllCartListProducts().get(index);
+                                    double amount = orderItem.getQty() * orderItem.getPrice();
+                                     totalPrice +=amount;
+                                }
+
+                                Order order = new  Order(num,totalPrice,Integer.parseInt(myShreadPref.getUID()),new Date(), OrderStatus.Pending,Resources.getAllCartListProducts());
+
+                                Resources.addToOrderList(order);
                                 Resources.getAllCartListProducts().clear();
                                 Intent intent = new Intent(CartActivity.this, HomeActivity.class);
 
@@ -111,7 +133,7 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void OnDeleteButtonClick(int position, OrderItem orderItem) {
 
-                Resources.removeOrder(orderItem);
+                Resources.removeFromCart(orderItem);
                 cartAdapter.notifyDataSetChanged();
 
 

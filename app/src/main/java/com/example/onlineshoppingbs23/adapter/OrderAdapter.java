@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onlineshoppingbs23.R;
 import com.example.onlineshoppingbs23.model.Order;
+import com.example.onlineshoppingbs23.model.OrderItem;
 
 import org.w3c.dom.Text;
 
@@ -25,6 +26,7 @@ public class OrderAdapter extends  RecyclerView.Adapter<OrderAdapter.OrderViewHo
     private Context context;
 
 
+    public  OnOrderItemClickListener onOrderItemClickListener;
     public OrderAdapter(List<Order> orderList, Context context) {
         this.orderList = orderList;
         this.context = context;
@@ -46,11 +48,18 @@ public class OrderAdapter extends  RecyclerView.Adapter<OrderAdapter.OrderViewHo
 
         holder.orderItemOrderId.setText("Order Id #"+order.getId());
 
-        SimpleDateFormat s = new SimpleDateFormat("hh:mm dd/MM/yyyy");
+        SimpleDateFormat s = new SimpleDateFormat("hh:mm a dd/MM/yyyy");
 
         holder.orderItemTime.setText(s.format(order.getTimestamp()));
 
         holder.orderItemOrderStatus.setText(order.getOrderStatus().name());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onOrderItemClickListener.onClick(order);
+            }
+        });
 
     }
 
@@ -59,6 +68,9 @@ public class OrderAdapter extends  RecyclerView.Adapter<OrderAdapter.OrderViewHo
         return orderList.size();
     }
 
+    public  void setOnOrderItemClickListener(OnOrderItemClickListener onOrderItemClickListener){
+        this.onOrderItemClickListener = onOrderItemClickListener;
+    }
     public  class  OrderViewHolder extends RecyclerView.ViewHolder {
 
         public TextView orderItemOrderId,orderItemTime,orderItemOrderStatus;
@@ -69,5 +81,9 @@ public class OrderAdapter extends  RecyclerView.Adapter<OrderAdapter.OrderViewHo
             orderItemTime = itemView.findViewById(R.id.orderItemTime);
             orderItemOrderStatus = itemView.findViewById(R.id.orderItemOrderStatus);
         }
+    }
+
+    public interface  OnOrderItemClickListener{
+        void  onClick(Order order);
     }
 }
