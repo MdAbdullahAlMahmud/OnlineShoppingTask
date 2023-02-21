@@ -17,6 +17,7 @@ import com.example.onlineshoppingbs23.model.Order;
 import com.example.onlineshoppingbs23.model.OrderItem;
 import com.example.onlineshoppingbs23.model.Product;
 import com.example.onlineshoppingbs23.ui.cart_activity.CartActivity;
+import com.example.onlineshoppingbs23.ui.order.OrderActivity;
 import com.example.onlineshoppingbs23.utils.CommonFunction;
 import com.example.onlineshoppingbs23.utils.Resources;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -70,6 +71,14 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, CartActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        orderListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent( HomeActivity.this, OrderActivity.class);
                 startActivity(intent);
             }
         });

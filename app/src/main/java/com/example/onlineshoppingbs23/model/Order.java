@@ -3,6 +3,7 @@ package com.example.onlineshoppingbs23.model;
 import com.example.onlineshoppingbs23.enums.OrderStatus;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public class Order {
@@ -10,14 +11,14 @@ public class Order {
     private  int id;
     private  double total_price;
     private  int uid;
-    private Timestamp  timestamp;
+    private Date timestamp;
 
     private OrderStatus orderStatus;
 
 
     private List<OrderItem> orderDetails;
 
-    public Order(int id, double total_price, int uid, Timestamp timestamp, OrderStatus orderStatus , List<OrderItem> orderDetails) {
+    public Order(int id, double total_price, int uid, Date timestamp, OrderStatus orderStatus , List<OrderItem> orderDetails) {
         this.id = id;
         this.total_price = total_price;
         this.uid = uid;
@@ -51,11 +52,11 @@ public class Order {
         this.uid = uid;
     }
 
-    public Timestamp getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 

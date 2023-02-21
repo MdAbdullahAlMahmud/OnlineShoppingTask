@@ -21,7 +21,7 @@ public class Resources {
     }
 
 
-    public  static  void  removeOrder(int position){
-        orderList.remove(position);
+    public  static  void  removeOrder(OrderItem orderItem){
+        orderList.remove(orderItem);
     }
 }

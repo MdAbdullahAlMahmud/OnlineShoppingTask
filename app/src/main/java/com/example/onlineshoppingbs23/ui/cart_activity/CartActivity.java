@@ -1,17 +1,20 @@
 package com.example.onlineshoppingbs23.ui.cart_activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.onlineshoppingbs23.R;
-import com.example.onlineshoppingbs23.adapter.OrderAdapter;
-import com.example.onlineshoppingbs23.model.Order;
+import com.example.onlineshoppingbs23.adapter.CartAdapter;
 import com.example.onlineshoppingbs23.model.OrderItem;
+import com.example.onlineshoppingbs23.ui.HomeActivity;
 import com.example.onlineshoppingbs23.utils.CommonFunction;
 import com.example.onlineshoppingbs23.utils.KeyName;
 import com.example.onlineshoppingbs23.utils.Resources;
@@ -23,7 +26,7 @@ public class CartActivity extends AppCompatActivity {
 
     private MaterialButton orderPlaceButton;
     private RecyclerView cartRecycleView;
-    private OrderAdapter orderAdapter;
+    private CartAdapter cartAdapter;
 
     private TextView cartListTotalAmountTv;
 
@@ -38,24 +41,44 @@ public class CartActivity extends AppCompatActivity {
 
 
 
-        CommonFunction.infoToast(CartActivity.this, ""+Resources.getAllCartListProducts().size());
 
         orderPlaceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CommonFunction.infoToast(CartActivity.this, "Order Placed");
+                AlertDialog builder = new AlertDialog.Builder(CartActivity.this)
+                        .setTitle("Do you want to place this order ? ")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                CommonFunction.successToast(CartActivity.this,"Order placed successfully");
+
+                                Resources.getAllCartListProducts().clear();
+                                Intent intent = new Intent(CartActivity.this, HomeActivity.class);
+
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+
+
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create();
+
+                builder.show();
+
+
+
             }
         });
 
 
-        List<OrderItem> orderItemList = Resources.getAllCartListProducts();
-        orderAdapter = new OrderAdapter(orderItemList,this);
-
-        cartRecycleView.setAdapter(orderAdapter);
-        orderAdapter.notifyDataSetChanged();
+        buildOrderList();
 
         showTotalPrice();
-        orderAdapter.setOnOrderItemClickListener(new OrderAdapter.OnOrderItemClickListener() {
+        cartAdapter.setOnOrderItemClickListener(new CartAdapter.OnOrderItemClickListener() {
             @Override
             public void OnPlusButtonClick(TextView displayTv, TextView rateSummaryTv,OrderItem orderItem) {
 
@@ -88,12 +111,23 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void OnDeleteButtonClick(int position, OrderItem orderItem) {
 
+                Resources.removeOrder(orderItem);
+                cartAdapter.notifyDataSetChanged();
+
+
             }
         });
 
 
 
 
+    }
+    public  void  buildOrderList(){
+        List<OrderItem> orderItemList = Resources.getAllCartListProducts();
+        cartAdapter = new CartAdapter(orderItemList,this);
+
+        cartRecycleView.setAdapter(cartAdapter);
+        cartAdapter.notifyDataSetChanged();
     }
 
     private  void  showTotalPrice(){

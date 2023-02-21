@@ -4,27 +4,29 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onlineshoppingbs23.R;
-import com.example.onlineshoppingbs23.model.OrderItem;
+import com.example.onlineshoppingbs23.model.Order;
 
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class OrderAdapter extends  RecyclerView.Adapter<OrderAdapter.OrderViewHolder>{
 
-    List<OrderItem> orderItemList;
-    Context context ;
 
-    public  OnOrderItemClickListener onOrderItemClickListener;
+    private List<Order> orderList ;
+    private Context context;
 
-    public OrderAdapter(List<OrderItem> orderItemList, Context context) {
-        this.orderItemList = orderItemList;
+
+    public OrderAdapter(List<Order> orderList, Context context) {
+        this.orderList = orderList;
         this.context = context;
     }
 
@@ -32,91 +34,40 @@ public class OrderAdapter extends  RecyclerView.Adapter<OrderAdapter.OrderViewHo
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.order_item_design,parent,false);
-
+        View view = LayoutInflater.from(context).inflate(R.layout.order_item,parent,false);
         return new OrderViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
 
-        OrderItem orderItem = orderItemList.get(position);
+        Order order = orderList.get(position);
 
 
+        holder.orderItemOrderId.setText("Order Id #"+order.getId());
 
+        SimpleDateFormat s = new SimpleDateFormat("hh:mm dd/MM/yyyy");
 
-        holder.cartListProductName.setText(orderItem.getName());
-        holder.cartListProductPrice.setText(String.valueOf(orderItem.getPrice() ));
+        holder.orderItemTime.setText(s.format(order.getTimestamp()));
 
-        holder.cartListItemQtyTv.setText(String.valueOf(orderItem.getQty()));
-
-        holder. cartListItemRateSummary.setText(orderItem.getPrice()+" * "+orderItem.getQty() + " = "+ (orderItem.getPrice() * orderItem.getQty()));
-
-
-        holder.cartListItemPlusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onOrderItemClickListener.OnPlusButtonClick(holder.cartListItemQtyTv, holder.cartListItemRateSummary,orderItem);
-            }
-        });
-
-
-        holder.cartListItemMinusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onOrderItemClickListener.OnMinusButtonClick(holder.cartListItemQtyTv, holder.cartListItemRateSummary,orderItem);
-            }
-        });
-
-        holder.cartListItemRemoveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onOrderItemClickListener.OnDeleteButtonClick(position,orderItem);
-            }
-        });
-
-
+        holder.orderItemOrderStatus.setText(order.getOrderStatus().name());
 
     }
 
     @Override
     public int getItemCount() {
-        return orderItemList.size();
+        return orderList.size();
     }
-
-
-    public  void  setOnOrderItemClickListener(OnOrderItemClickListener onOrderItemClickListener){
-        this.onOrderItemClickListener = onOrderItemClickListener;
-    }
-
 
     public  class  OrderViewHolder extends RecyclerView.ViewHolder {
 
-
-        public TextView cartListProductName,cartListProductPrice,cartListItemQtyTv,cartListItemRateSummary;
-        public ImageButton cartListItemRemoveButton;
-        public Button cartListItemMinusButton ,cartListItemPlusButton;
-
+        public TextView orderItemOrderId,orderItemTime,orderItemOrderStatus;
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            cartListProductName = itemView.findViewById(R.id.cartListProductName);
-            cartListProductPrice = itemView.findViewById(R.id.cartListProductPrice);
-            cartListItemQtyTv = itemView.findViewById(R.id.cartListItemQtyTv);
-            cartListItemRateSummary = itemView.findViewById(R.id.cartListItemRateSummary);
-            cartListItemRemoveButton = itemView.findViewById(R.id.cartListItemRemoveButton);
-            cartListItemMinusButton = itemView.findViewById(R.id.cartListItemMinusButton);
-            cartListItemPlusButton = itemView.findViewById(R.id.cartListItemPlusButton);
-
+            orderItemOrderId = itemView.findViewById(R.id.orderItemOrderId);
+            orderItemTime = itemView.findViewById(R.id.orderItemTime);
+            orderItemOrderStatus = itemView.findViewById(R.id.orderItemOrderStatus);
         }
-    }
-
-    public  interface  OnOrderItemClickListener{
-
-        void OnPlusButtonClick(TextView displayTv, TextView rateSummaryTv,OrderItem orderItem);
-        void OnMinusButtonClick(TextView displayTv,TextView rateSummaryTv,OrderItem orderItem);
-        void OnDeleteButtonClick(int position , OrderItem orderItem);
-
-
     }
 }
