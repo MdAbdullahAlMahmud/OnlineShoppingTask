@@ -5,6 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.example.onlineshoppingbs23.R;
 import com.example.onlineshoppingbs23.adapter.OrderAdapter;
@@ -12,6 +16,7 @@ import com.example.onlineshoppingbs23.enums.OrderStatus;
 import com.example.onlineshoppingbs23.model.Order;
 import com.example.onlineshoppingbs23.model.OrderItem;
 import com.example.onlineshoppingbs23.utils.Resources;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,12 +48,27 @@ public class OrderActivity extends AppCompatActivity {
         adapter.setOnOrderItemClickListener(new OrderAdapter.OnOrderItemClickListener() {
             @Override
             public void onClick(Order order) {
-
+                showOrderDetailsBottomSheet();
             }
         });
 
     }
 
+
+    public void showOrderDetailsBottomSheet(){
+
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(OrderActivity.this);
+
+        LinearLayout linearLayout = new LinearLayout(OrderActivity.this);
+
+
+        bottomSheetDialog.setContentView(linearLayout);
+
+        bottomSheetDialog.setCancelable(true);
+        bottomSheetDialog.show();
+
+
+    }
 
     public  void  initRecycle(){
 
