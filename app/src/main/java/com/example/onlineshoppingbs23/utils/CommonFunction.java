@@ -18,4 +18,7 @@ public class CommonFunction {
     public static void successToast(Context context,String msg){
         Toasty.success(context,msg).show();
     }
+
+
+
 }

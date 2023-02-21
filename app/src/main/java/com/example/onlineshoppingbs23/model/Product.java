@@ -6,13 +6,23 @@ public class Product {
     private double  price;
     private String description;
     private String image;
+    private int pId;
 
 
-    public Product(String name, double  price, String description, String image) {
+    public Product(int pId , String name, double  price, String description, String image) {
+        this.pId = pId;
         this.name = name;
         this.price = price;
         this.description = description;
         this.image = image;
+    }
+
+    public int getpId() {
+        return pId;
+    }
+
+    public void setpId(int pId) {
+        this.pId = pId;
     }
 
     public String getName() {

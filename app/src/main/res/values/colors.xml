@@ -10,4 +10,7 @@
     <color name="primaryColor">#4887BA</color>
     <color name="primaryColorHint">#7CACD3</color>
 
+    <color name="successColor">#4CAF50</color>
+    <color name="warningColor">#D32F2F</color>
+
 </resources>
