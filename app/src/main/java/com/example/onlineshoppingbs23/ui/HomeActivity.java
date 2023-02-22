@@ -45,10 +45,10 @@ public class HomeActivity extends AppCompatActivity {
         String image = "https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80";
 
         productList.add(new Product(1,"Table",350,"desc",image));
-        productList.add(new Product(2,"Chair",420,"desc",image));
-        productList.add(new Product(3,"Fan",500,"desc",image));
-        productList.add(new Product(4,"Charger",658,"desc",image));
-        productList.add(new Product(5,"watch",150,"desc",image));
+        productList.add(new Product(2,"Chair",420,"desc","https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"));
+        productList.add(new Product(3,"Fan",500,"desc","https://images.unsplash.com/photo-1609519479841-5fd3b2884e17?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=986&q=80"));
+        productList.add(new Product(4,"Charger",658,"desc","https://images.unsplash.com/photo-1586254116951-5263e2cdb44c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"));
+        productList.add(new Product(5,"watch",150,"desc","https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"));
         adapter = new ProductAdapter(productList,this);
         homeRV.setAdapter(adapter);
         adapter.notifyDataSetChanged();
