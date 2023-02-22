@@ -1,5 +1,6 @@
 package com.example.onlineshoppingbs23.ui.authentication;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -151,11 +152,19 @@ public class RegistrationFragment extends Fragment implements AuthenticationCont
     @Override
     public void registrationResponse(boolean status, String response) {
 
-        CommonFunction.successToast(getContext(), " Account Created");
+
+        CommonFunction.successToast(getContext(), " Account Created Successfully");
+
+        ((AuthenticationActivity)getActivity()).setUpFragment(new LoginFragment());
     }
 
     @Override
     public void showError() {
 
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        authenticationPresenter.destroyView();
     }
 }

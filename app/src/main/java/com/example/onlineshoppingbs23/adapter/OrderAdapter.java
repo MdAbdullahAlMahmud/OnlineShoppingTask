@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onlineshoppingbs23.R;
+import com.example.onlineshoppingbs23.enums.OrderStatus;
 import com.example.onlineshoppingbs23.model.Order;
 import com.example.onlineshoppingbs23.model.OrderItem;
 
@@ -52,6 +54,11 @@ public class OrderAdapter extends  RecyclerView.Adapter<OrderAdapter.OrderViewHo
 
         holder.orderItemTime.setText(s.format(order.getTimestamp()));
 
+        if (order.getOrderStatus().equals(OrderStatus.Delivered)){
+            holder.orderStatusIcon.setImageDrawable(context.getDrawable(R.drawable.baseline_check_circle_outline_24));
+            holder.orderItemOrderStatus.setTextColor(context.getResources().getColor(R.color.successColor));
+
+        }
         holder.orderItemOrderStatus.setText(order.getOrderStatus().name());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -74,12 +81,14 @@ public class OrderAdapter extends  RecyclerView.Adapter<OrderAdapter.OrderViewHo
     public  class  OrderViewHolder extends RecyclerView.ViewHolder {
 
         public TextView orderItemOrderId,orderItemTime,orderItemOrderStatus;
+        public ImageButton orderStatusIcon;
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
 
             orderItemOrderId = itemView.findViewById(R.id.orderItemOrderId);
             orderItemTime = itemView.findViewById(R.id.orderItemTime);
             orderItemOrderStatus = itemView.findViewById(R.id.orderItemOrderStatus);
+            orderStatusIcon = itemView.findViewById(R.id.orderStatusIcon);
         }
     }
 

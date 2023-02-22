@@ -125,4 +125,10 @@ public class LoginFragment extends Fragment implements  AuthenticationContract.L
 
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.destroyView();
+    }
 }

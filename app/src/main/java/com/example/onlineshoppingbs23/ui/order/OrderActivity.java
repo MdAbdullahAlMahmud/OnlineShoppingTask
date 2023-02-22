@@ -21,6 +21,7 @@ import com.example.onlineshoppingbs23.model.OrderItem;
 import com.example.onlineshoppingbs23.ui.cart_activity.CartActivity;
 import com.example.onlineshoppingbs23.utils.CommonFunction;
 import com.example.onlineshoppingbs23.utils.KeyName;
+import com.example.onlineshoppingbs23.utils.MyShreadPref;
 import com.example.onlineshoppingbs23.utils.Resources;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,11 +43,13 @@ public class OrderActivity extends AppCompatActivity {
     private OrderAdapter adapter;
 
     private FirebaseFirestore firebaseFirestore ;
+    private MyShreadPref myShreadPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         firebaseFirestore = FirebaseFirestore.getInstance();
+        myShreadPref = new MyShreadPref(this);
         init();
         initRecycle();
 
@@ -74,7 +77,11 @@ public class OrderActivity extends AppCompatActivity {
                     for (DocumentSnapshot documentSnapshot :task.getResult().getDocuments()){
                         Order order = documentSnapshot.toObject(Order.class);
 
-                        orderList.add(order);
+                        int uid = Integer.parseInt(myShreadPref.getUID());
+                        if (uid == order.getUid()){
+                            orderList.add(order);
+
+                        }
                     }
 
                     adapter = new OrderAdapter(orderList, OrderActivity.this);
@@ -104,29 +111,37 @@ public class OrderActivity extends AppCompatActivity {
         LinearLayout linearLayout = new LinearLayout(OrderActivity.this);
 
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        for (OrderItem orderItem : order.getOrderDetails()) {
 
-
-            TextView textView = new TextView(OrderActivity.this);
-
-            textView.setText(""+ orderItem.getName() );
-
-            linearLayout.addView(textView);
-
-        }
 
 
         for (int i = 0; i < order.getOrderDetails().size(); i++) {
             TextView textView = new TextView(OrderActivity.this);
 
-            textView.setText("name "+ i );
+            OrderItem orderItem = order.getOrderDetails().get(i);
+            textView.setText(orderItem.getName()+" , Qty : "+ orderItem.getQty() + " ,Price " + KeyName.PRODUCT_CURRENCY +" "+ orderItem.getQty() );
+            textView.setTextSize(18);
+            textView.setPadding(16,16,16,16);
 
             linearLayout.addView(textView);
         }
+        TextView textView = new TextView(OrderActivity.this);
+        textView.setText( "Total Amount " +KeyName.PRODUCT_CURRENCY +" "+ order.getTotal_price());
+        textView.setTextSize(22);
+        textView.setPadding(16,16,16,16);
 
-        Button button = new Button(OrderActivity.this);
-        button.setText("Cancel");
-        linearLayout.addView(button);
+        linearLayout.addView(textView);
+
+        Button cancelButton = new Button(OrderActivity.this);
+        cancelButton.setText("Cancel");
+        cancelButton.setPadding(16,16,16,16);
+
+        linearLayout.addView(cancelButton);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+            }
+        });
 
 
         bottomSheetDialog.setContentView(linearLayout);
