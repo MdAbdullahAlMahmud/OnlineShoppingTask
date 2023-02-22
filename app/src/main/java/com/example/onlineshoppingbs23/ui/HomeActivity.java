@@ -13,9 +13,11 @@ import com.example.onlineshoppingbs23.R;
 import com.example.onlineshoppingbs23.adapter.ProductAdapter;
 import com.example.onlineshoppingbs23.model.OrderItem;
 import com.example.onlineshoppingbs23.model.Product;
+import com.example.onlineshoppingbs23.ui.authentication.AuthenticationActivity;
 import com.example.onlineshoppingbs23.ui.cart_activity.CartActivity;
 import com.example.onlineshoppingbs23.ui.order.OrderActivity;
 import com.example.onlineshoppingbs23.utils.CommonFunction;
+import com.example.onlineshoppingbs23.utils.MyShreadPref;
 import com.example.onlineshoppingbs23.utils.Resources;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -27,7 +29,9 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView homeRV;
     private ProductAdapter adapter ;
     private FloatingActionButton cartListButton;
-    private ImageButton orderListButton;
+    private ImageButton orderListButton,homeLogOutButton;
+
+    private MyShreadPref shreadPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,13 +84,33 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+
+        homeLogOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                shreadPref.setUID("");
+                Intent intent = new Intent( HomeActivity.this, AuthenticationActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
+
+
+
+
     }
 
     private  void  init(){
         cartListButton = findViewById(R.id.cartButton);
         orderListButton = findViewById(R.id.orderListButton);
+        homeLogOutButton = findViewById(R.id.homeLogOutButton);
     }
     private void initRecycleView() {
+        shreadPref = new MyShreadPref(this);
+
         homeRV = findViewById(R.id.homeRV);
 
         homeRV.setLayoutManager(new GridLayoutManager(this,2));

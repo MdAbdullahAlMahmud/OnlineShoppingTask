@@ -18,17 +18,36 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <ImageButton
-            android:id="@+id/orderListButton"
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="@dimen/_12sdp"
-            app:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/baseline_shopping_cart_24" />
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/homeLogOutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/_12sdp"
+                app:tint="@color/white"
+                app:srcCompat="@drawable/baseline_logout_24" />
+
+            <ImageButton
+                android:id="@+id/orderListButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/_12sdp"
+                app:tint="@color/white"
+                app:srcCompat="@drawable/baseline_shopping_cart_24" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
         <TextView
             android:id="@+id/textView"

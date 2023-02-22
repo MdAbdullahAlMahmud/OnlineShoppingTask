@@ -118,7 +118,7 @@ public class OrderActivity extends AppCompatActivity {
             TextView textView = new TextView(OrderActivity.this);
 
             OrderItem orderItem = order.getOrderDetails().get(i);
-            textView.setText(orderItem.getName()+" , Qty : "+ orderItem.getQty() + " ,Price " + KeyName.PRODUCT_CURRENCY +" "+ orderItem.getQty() );
+            textView.setText(orderItem.getName()+" , Qty : "+ orderItem.getQty() + " ,Price " + KeyName.PRODUCT_CURRENCY +" "+ orderItem.getPrice() );
             textView.setTextSize(18);
             textView.setPadding(16,16,16,16);
 
