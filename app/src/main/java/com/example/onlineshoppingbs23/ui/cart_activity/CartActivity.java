@@ -22,6 +22,7 @@ import com.example.onlineshoppingbs23.model.Order;
 import com.example.onlineshoppingbs23.model.OrderItem;
 import com.example.onlineshoppingbs23.model.PaymentTransaction;
 import com.example.onlineshoppingbs23.ui.HomeActivity;
+import com.example.onlineshoppingbs23.utils.BSShopLoadingDialog;
 import com.example.onlineshoppingbs23.utils.CommonFunction;
 import com.example.onlineshoppingbs23.utils.KeyName;
 import com.example.onlineshoppingbs23.utils.MyShreadPref;
@@ -47,12 +48,16 @@ public class CartActivity extends AppCompatActivity {
     private MyShreadPref myShreadPref;
 
     private FirebaseFirestore firebaseFirestore;
+
+    private BSShopLoadingDialog loadingDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         myShreadPref = new MyShreadPref(this);
         firebaseFirestore = FirebaseFirestore.getInstance();
+
+        loadingDialog = new BSShopLoadingDialog(this);
         init();
         initRecycleView();
 
@@ -63,12 +68,15 @@ public class CartActivity extends AppCompatActivity {
         orderPlaceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                BSShopLoadingDialog bsShopLoadingDialog = new BSShopLoadingDialog(CartActivity.this);
                 AlertDialog builder = new AlertDialog.Builder(CartActivity.this)
                         .setTitle("Do you want to place this order ? ")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
+                                bsShopLoadingDialog.showDialog();
 
                                 Random rand = new Random();
                                 int generatedOrderID = rand.nextInt(1000) + 1000000;
@@ -117,6 +125,7 @@ public class CartActivity extends AppCompatActivity {
 
 
 
+                                bsShopLoadingDialog.cancelDialog();
 
                                 firebaseFirestore.collection(KeyName.ORDERS_NODE).document(orderId).set(order).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
