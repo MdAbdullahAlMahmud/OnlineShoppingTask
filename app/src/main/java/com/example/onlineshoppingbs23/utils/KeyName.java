@@ -7,5 +7,6 @@ public class KeyName {
 
     public  static  String ORDERS_NODE = "Orders";
     public  static  String ORDERS_DETAILS_NODE = "Orders_Details";
+    public  static  String PAYMENT_Transaction_NODE = "PaymentTransaction";
 
 }

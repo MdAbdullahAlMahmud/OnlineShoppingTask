@@ -15,8 +15,12 @@ import android.widget.TextView;
 import com.example.onlineshoppingbs23.R;
 import com.example.onlineshoppingbs23.adapter.CartAdapter;
 import com.example.onlineshoppingbs23.enums.OrderStatus;
+import com.example.onlineshoppingbs23.enums.PaymentType;
+import com.example.onlineshoppingbs23.model.CODPayment;
+import com.example.onlineshoppingbs23.model.CardPayment;
 import com.example.onlineshoppingbs23.model.Order;
 import com.example.onlineshoppingbs23.model.OrderItem;
+import com.example.onlineshoppingbs23.model.PaymentTransaction;
 import com.example.onlineshoppingbs23.ui.HomeActivity;
 import com.example.onlineshoppingbs23.utils.CommonFunction;
 import com.example.onlineshoppingbs23.utils.KeyName;
@@ -67,7 +71,7 @@ public class CartActivity extends AppCompatActivity {
 
 
                                 Random rand = new Random();
-                                int num = rand.nextInt(1000) + 1000000;
+                                int generatedOrderID = rand.nextInt(1000) + 1000000;
 
                                 int totalPrice = 0 ;
                                 for ( int index = 0 ; index < Resources.getAllCartListProducts().size();index++){
@@ -78,11 +82,40 @@ public class CartActivity extends AppCompatActivity {
                                 }
 
 
-                                /*Resources.addToOrderList(order);
-                                Resources.getAllCartListProducts().clear();*/
+
 
                                 String orderId = firebaseFirestore.collection(KeyName.ORDERS_NODE).document().getId();
-                                Order order = new  Order(num,totalPrice,Integer.parseInt(myShreadPref.getUID()),new Date(), OrderStatus.Pending,Resources.getAllCartListProducts(),orderId);
+                                Order order = new  Order(generatedOrderID,totalPrice,Integer.parseInt(myShreadPref.getUID()),new Date(), OrderStatus.Pending,Resources.getAllCartListProducts(),orderId);
+
+                                //public CardPayment(String paymentName, String accountNumber, double amount, PaymentType paymentType ,String cvc,String cardHolderName,String expireDate) {
+
+                                CardPayment cardPayment = new CardPayment("Master Card", "4444-4444-4444-1111" , totalPrice, PaymentType.CARD,"434","Abdullah","12/25");
+
+                                //PaymentTransaction(String transactionId, String orderId, String uid, String paymentId, Payment payment) {
+
+
+                                String paymentId = firebaseFirestore.collection(KeyName.PAYMENT_Transaction_NODE).document().getId();
+
+                                PaymentTransaction paymentTransaction = new PaymentTransaction();
+                                paymentTransaction.setOrderId(orderId);
+                                paymentTransaction.setPayment(cardPayment);
+                                paymentTransaction.setPaymentId(paymentId);
+                                paymentTransaction.setUid(myShreadPref.getUID());
+
+
+
+                                firebaseFirestore.collection(KeyName.PAYMENT_Transaction_NODE).document(paymentId).set(paymentTransaction).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()){
+                                            CommonFunction.successToast(CartActivity.this,"Payment  completed successfully");
+                                        }else {
+                                            CommonFunction.successToast(CartActivity.this,"Something went wrong");
+                                        }
+                                    }
+                                });
+
+
 
 
                                 firebaseFirestore.collection(KeyName.ORDERS_NODE).document(orderId).set(order).addOnCompleteListener(new OnCompleteListener<Void>() {
